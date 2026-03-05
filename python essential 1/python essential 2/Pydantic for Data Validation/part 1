@@ -1,0 +1,36 @@
+from pydantic import BaseModel
+from pydantic  import  EmailStr, Field, ValidationError
+class UserRegister(BaseModel):
+    username: str = Field(..., min_length=5)
+    email: EmailStr
+    age: int = Field(..., ge=18)
+
+
+#  Valid Input Example
+try:
+    user = UserRegister(
+        username="roshni123",
+        email="aroshni081@gmail.com",
+        age=20
+    )
+    print("Registration Successful!")
+    print(user)
+except ValidationError as e:
+    print(e)
+
+
+#  Invalid Input Example
+try:
+    user = UserRegister(
+        username="abc",          # less than 5 characters
+        email="wrong-email",     # invalid email
+        age=15                # less than 18
+    )
+except ValidationError as e:
+    print("Validation Error:")
+    print(e)
+
+
+
+
+
